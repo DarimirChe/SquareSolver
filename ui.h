@@ -1,8 +1,3 @@
-// #ifndef UI_H
-// #define UI_H
-
-// #include "solvers.h"
-
 enum scanCoefficientsStatus {
     INVALID = 0,
     VALID,
@@ -14,5 +9,3 @@ void printWelcomeMessage(void);
 void printInputError(void);
 
 enum scanCoefficientsStatus scanCoefficients(double* a, double* b, double* c);
-
-// #endif /* UI_H */

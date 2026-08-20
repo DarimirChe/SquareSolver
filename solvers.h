@@ -1,5 +1,3 @@
-// #pragma once
-
 enum countSolution {
     NO_SOLUTION = 0, 
     ONE_SOLUTION, 
@@ -9,4 +7,4 @@ enum countSolution {
 };
 
 enum countSolution solveQuadratic(double a, double b, double c, double* x1, double* x2);
-double solveLinear(double b, double c);
+enum countSolution solveLinear(double b, double c, double* x);

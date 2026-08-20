@@ -4,7 +4,6 @@
 #include "ui.h"
 #include "solvers.h"
 
-
 /* It outputs the answer based on the number of solutions to the equation. */
 void printSolution(int countSolution, double x1, double x2) {
     switch (countSolution)
@@ -35,6 +34,7 @@ void printWelcomeMessage() {
     printf("Enter the coefficients a, b, and c:\n");
 }
 
+/* Outputs an error in entering coefficients */
 void printInputError() {
     printf("The entered coefficients are incorrect\n");
 }
