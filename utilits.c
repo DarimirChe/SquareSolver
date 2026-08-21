@@ -2,7 +2,7 @@
 
 #include "utilits.h"
 
-/* Comparing a double number with zero up to accuracy decimal places. */
-bool isZero(double comparedNumber, double precision) {
-    return fabs(comparedNumber) < precision;
+/* Comparing a first double number with second duble number up to accuracy decimal places. */
+bool compare(double firstNumber, double secondNumber, double precision) {
+    return fabs(firstNumber - secondNumber) < precision;
 }
