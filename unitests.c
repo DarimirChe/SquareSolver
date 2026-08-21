@@ -1,13 +1,18 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "solvers.h"
+#include "utilits.h"
 
 bool testSolveLinear(double b, double c, enum countSolution correctReturn, double correctX);
 
 void printIncorrectReturn(double b, double c, enum countSolution currentReturn, enum countSolution correctReturn);
 void printIncorrectX(double b, double c, double currentX, double correctX);
 
-char* countSolutionToString(enum countSolution countSolution);
+void scanDataTest(struct dataTest* tests);
+
+const char* countSolutionToString(enum countSolution countSolution);
+enum countSolution stringToCountSolution(char* inputString);
 
 struct dataTest {
     double b;
@@ -17,19 +22,17 @@ struct dataTest {
 };
 
 const int COUNT_TESTS = 9;
+const int MAX_LEN_FILENAME = 50;
+const int MAX_LEN_TEMP_STR = 50;
+
+const double precision = 1e-5;
+
+const char FILENAME[MAX_LEN_FILENAME] = "tests.txt";
 
 int main() {
-    struct dataTest tests[COUNT_TESTS] = {
-        {.b = 1, .c = 1, .currentCountSolution = ONE_SOLUTION, .currentX = -1},
-        {.b = 1, .c = -2, .currentCountSolution = ONE_SOLUTION, .currentX = 2},
-        {.b = 2, .c = 3, .currentCountSolution = ONE_SOLUTION, .currentX = -1.5},
-        {.b = -2, .c = -1, .currentCountSolution = ONE_SOLUTION, .currentX = -0.5},
-        {.b = -1.5, .c = 3, .currentCountSolution = ONE_SOLUTION, .currentX = 2},
-        {.b = 0.5, .c = -1.25, .currentCountSolution = ONE_SOLUTION, .currentX = 2.5},
-        {.b = -3.5, .c = 0, .currentCountSolution = ONE_SOLUTION, .currentX = 2.5},
-        {.b = 0, .c = 0, .currentCountSolution = INFINITY_SOLUTIONS, .currentX = 0},
-        {.b = 0, .c = 1, .currentCountSolution = INFINITY_SOLUTIONS, .currentX = 0}
-    };
+    struct dataTest tests[COUNT_TESTS]; 
+
+    scanDataTest(tests);
 
     for (int i = 0; i < COUNT_TESTS; i++) {
         printf("Test %d processing...\n", i + 1);
@@ -50,7 +53,7 @@ bool testSolveLinear(double b, double c, enum countSolution correctCountSolution
     if (currentCountSolution != correctCountSolution) {
         printIncorrectReturn(b, c, currentCountSolution, correctCountSolution);
         return false;
-    } else if (currentX != correctX) {
+    } else if (compare(currentX, correctX, precision)) {
         printIncorrectX(b, c, currentX, correctX);
         return false;
     }
@@ -74,7 +77,7 @@ void printIncorrectX(double b, double c, double currentX, double correctX) {
 }
 
 /* Returns the string value of the enum countSolution header */
-char* countSolutionToString(enum countSolution countSolution) {
+const char* countSolutionToString(enum countSolution countSolution) { 
     switch (countSolution)
     {
     case NO_SOLUTION:
@@ -90,4 +93,36 @@ char* countSolutionToString(enum countSolution countSolution) {
         return "";
         break;
     }
+}
+
+enum countSolution stringToCountSolution(char* inputString) {
+    if (!strcmp(inputString, "NO_SOLUTION")) {
+        return NO_SOLUTION;
+    } else if (!strcmp(inputString, "ONE_SOLUTION")) {
+        return ONE_SOLUTION;
+    } else if (!strcmp(inputString, "INFINITY_SOLUTIONS")) {
+        return INFINITY_SOLUTIONS;
+    }
+    return ERROR_NULL_POINTER; // Что делать если ничего не подойдет??
+}
+
+void scanDataTest(struct dataTest* tests) {
+    double b = 0, c = 0, currentX = 0;
+    char tempStr[MAX_LEN_TEMP_STR] = {};
+
+    FILE* testsFile = fopen(FILENAME, "r");
+
+    for (int i = 0; i < COUNT_TESTS; i++) {
+        fscanf(testsFile, "%lg %lg %s %lg", &b, &c, tempStr, &currentX);
+        tests[i].b = b;
+        tests[i].c = c;
+        tests[i].currentCountSolution = stringToCountSolution(tempStr);
+        tests[i].currentX = currentX;
+
+        if (tests[i].currentCountSolution == ERROR_NULL_POINTER) {
+            printf("Error. Incorrect data in %s %d line\n", FILENAME, i + 1);
+        }
+    }
+
+    fclose(testsFile);
 }
