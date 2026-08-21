@@ -14,8 +14,13 @@ int main() {
     testSolveLinear(1, -2, ONE_SOLUTION, 2);
     testSolveLinear(2, 3, ONE_SOLUTION, -1.5);
     testSolveLinear(-2, -1, ONE_SOLUTION, -0.5);
+    testSolveLinear(-1.5, 3, ONE_SOLUTION, 2);
+    testSolveLinear(0.5, -1.25, ONE_SOLUTION, 2.5);
+    testSolveLinear(-3.5, 0, ONE_SOLUTION, 0);
+
+    testSolveLinear(0, 0, INFINITY_SOLUTIONS, 0);
+
     testSolveLinear(0, 1, NO_SOLUTION, 0);
-    testSolveLinear(1, 0, INFINITY_SOLUTIONS, 0);
     return 0;
 }
 
