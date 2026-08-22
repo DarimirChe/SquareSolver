@@ -9,7 +9,7 @@ enum countSolution solveQuadratic(double a, double b, double c, double* x1, doub
         return ERROR_NULL_POINTER;
     }
 
-    if (compare(a, 0, PRECISION)) {
+    if (isZero(a, PRECISION)) {
         return solveLinear(b, c, x1);
     }
 
@@ -19,7 +19,7 @@ enum countSolution solveQuadratic(double a, double b, double c, double* x1, doub
         return NO_SOLUTION;
     }
 
-    if (compare(discriminant, 0, PRECISION)) {
+    if (isZero(discriminant, PRECISION)) {
         *x1 = -b / 2 * a;
         return ONE_SOLUTION;
     }
@@ -36,8 +36,8 @@ enum countSolution solveLinear(double b, double c, double* x) {
         return ERROR_NULL_POINTER;
     }
 
-    if (compare(b, 0, PRECISION)) {
-        if (compare(c, 0, PRECISION)) {
+    if (isZero(b, PRECISION)) {
+        if (isZero(c, PRECISION)) {
             return INFINITY_SOLUTIONS;
         }
         return NO_SOLUTION;
