@@ -1,4 +1,2 @@
-.\a.exe
-.\solveq.exe
-.\t.bat
-.\test.exe
+*.exe
+t.bat
