@@ -45,7 +45,9 @@ enum scanCoefficientsStatus scanCoefficients(double* a, double* b, double* c) {
         return ERROR_POINTER;
     }
 
-    if (scanf("%lg %lg %lg", a, b, c) != 3) 
+    int padding = 0;
+
+    if (scanf("%lg %lg %lg %d", a, b, c, &padding) != 3) 
         return INVALID;
     if (isfinite(*a) && isfinite(*b) && isfinite(*c)) 
         return VALID;
