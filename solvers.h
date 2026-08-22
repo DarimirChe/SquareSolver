@@ -4,7 +4,7 @@ enum countSolution {
     TWO_SOLUTIONS,
     INFINITY_SOLUTIONS,
     ERROR_NULL_POINTER,
-    
+    INVALID_COEFF
 };
 
 enum countSolution solveQuadratic(double a, double b, double c, double* x1, double* x2);

@@ -9,6 +9,10 @@ enum countSolution solveQuadratic(double a, double b, double c, double* x1, doub
         return ERROR_NULL_POINTER;
     }
 
+    if (!(isfinite(a) && isfinite(b) && isfinite(c))) {
+        return INVALID_COEFF;
+    }
+
     if (isZero(a, PRECISION)) {
         return solveLinear(b, c, x1);
     }
@@ -34,6 +38,10 @@ enum countSolution solveQuadratic(double a, double b, double c, double* x1, doub
 enum countSolution solveLinear(double k, double m, double* x) {
     if (x == NULL) {
         return ERROR_NULL_POINTER;
+    }
+
+    if (!(isfinite(k) && isfinite(m))) {
+        return INVALID_COEFF;
     }
 
     if (isZero(k, PRECISION)) {
