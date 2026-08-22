@@ -19,13 +19,13 @@ enum countSolution solveQuadratic(double a, double b, double c, double* x1, doub
 
     double discriminant = b * b - 4 * a * c;
 
-    if (discriminant < 0) {
-        return NO_SOLUTION;
-    }
-
     if (isZero(discriminant, PRECISION)) {
         *x1 = -b / 2 * a;
         return ONE_SOLUTION;
+    }
+
+    if (discriminant < 0) {
+        return NO_SOLUTION;
     }
 
     *x1 = (-b + sqrt(discriminant)) / (2 * a);
