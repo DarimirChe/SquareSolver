@@ -103,17 +103,17 @@ enum countSolution stringToCountSolution(char* inputString) {
     } else if (!strcmp(inputString, "INFINITY_SOLUTIONS")) {
         return INFINITY_SOLUTIONS;
     }
-    return ERROR_NULL_POINTER; // Что делать если ничего не подойдет??
+    return ERROR_NULL_POINTER;
 }
 
 void scanDataTest(struct dataTest* tests) {
     double b = 0, c = 0, currentX = 0;
     char tempStr[MAX_LEN_TEMP_STR] = {};
 
-    FILE* testsFile = fopen(FILENAME, "r");
+    FILE* testsFile = fopen(FILENAME, "r"); //TODO: Needs to check the null pointer
 
     for (int i = 0; i < COUNT_TESTS; i++) {
-        fscanf(testsFile, "%lg %lg %s %lg", &b, &c, tempStr, &currentX);
+        fscanf(testsFile, "%lg %lg %s %lg", &b, &c, tempStr, &currentX); //TODO: Needs to check
         tests[i].b = b;
         tests[i].c = c;
         tests[i].currentCountSolution = stringToCountSolution(tempStr);
