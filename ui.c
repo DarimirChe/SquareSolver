@@ -48,10 +48,23 @@ enum scanCoefficientsStatus scanCoefficients(double* a, double* b, double* c) {
     if (scanf("%lg %lg %lg", a, b, c) != 3) {
         return INVALID;
     }
+    if (!bufferIsClear()) {
+        return INVALID;
+    }
 
     if (isfinite(*a) && isfinite(*b) && isfinite(*c)) {
         return VALID;
     }
 
     return INVALID;
+}
+
+bool bufferIsClear() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) {
+        if (c != ' ' && c != '\t') {
+            return false;
+        }
+    }
+    return true;
 }

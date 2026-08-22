@@ -9,3 +9,5 @@ void printWelcomeMessage(void);
 void printInputError(void);
 
 enum scanCoefficientsStatus scanCoefficients(double* a, double* b, double* c);
+
+bool bufferIsClear();
