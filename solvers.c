@@ -30,18 +30,18 @@ enum countSolution solveQuadratic(double a, double b, double c, double* x1, doub
     return TWO_SOLUTIONS;
 }
 
-/* Solves a linear equation of the form: b*x + c = 0 */
-enum countSolution solveLinear(double b, double c, double* x) {
+/* Solves a linear equation of the form: k*x + m = 0 */
+enum countSolution solveLinear(double k, double m, double* x) {
     if (x == NULL) {
         return ERROR_NULL_POINTER;
     }
 
-    if (isZero(b, PRECISION)) {
-        if (isZero(c, PRECISION)) {
+    if (isZero(k, PRECISION)) {
+        if (isZero(m, PRECISION)) {
             return INFINITY_SOLUTIONS;
         }
         return NO_SOLUTION;
     }
-    *x = -c / b;
+    *x = -m / k;
     return ONE_SOLUTION;
 }
