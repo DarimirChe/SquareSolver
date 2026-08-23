@@ -6,7 +6,7 @@ int main() {
 
     double a = 0, b = 0, c = 0;
 
-    enum scanCoefficientsStatus isValidCoefficients = scanCoefficients(&a, &b, &c);
+    enum ScanCoefficientsStatus isValidCoefficients = scanCoefficients(&a, &b, &c);
 
     if (isValidCoefficients == INVALID) {
         printInputError();

@@ -40,11 +40,11 @@ void printInputError() {
 }
 
 /* Accepts coefficients a, b, and c from the input buffer. Returns 1 if the data is correct and 0 otherwise. */
-enum scanCoefficientsStatus scanCoefficients(double* a, double* b, double* c) {
+enum ScanCoefficientsStatus scanCoefficients(double* a, double* b, double* c) {
     if (a == NULL || b == NULL || c == NULL) {
         return ERROR_POINTER;
     }
-
+    
     if (scanf("%lg %lg %lg", a, b, c) != 3) {
         return INVALID;
     }
@@ -60,7 +60,7 @@ enum scanCoefficientsStatus scanCoefficients(double* a, double* b, double* c) {
 }
 
 bool bufferIsClear() {
-    int c;
+    int c = 0;
     while ((c = getchar()) != '\n' && c != EOF) {
         if (c != ' ' && c != '\t') {
             return false;

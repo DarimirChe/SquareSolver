@@ -4,7 +4,7 @@
 #include "utilits.h"
 
 /* Solving quadratic equations of the form: ax^2 + bx + c = 0 */
-enum countSolution solveQuadratic(double a, double b, double c, double* x1, double* x2) {
+enum CountSolution solveQuadratic(double a, double b, double c, double* x1, double* x2) {
     if (x1 == NULL || x2 == NULL) {
         return ERROR_NULL_POINTER;
     }
@@ -35,7 +35,7 @@ enum countSolution solveQuadratic(double a, double b, double c, double* x1, doub
 }
 
 /* Solves a linear equation of the form: k*x + m = 0 */
-enum countSolution solveLinear(double k, double m, double* x) {
+enum CountSolution solveLinear(double k, double m, double* x) {
     if (x == NULL) {
         return ERROR_NULL_POINTER;
     }
