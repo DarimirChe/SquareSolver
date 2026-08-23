@@ -6,9 +6,9 @@
 
 const int COUNT_TESTS = 9;
 const int MAX_LEN_FILENAME = 50;
-const int MAX_LEN_TEMP_STR = 50;
+const int MAX_LEN_COUNT_SOLUTION_STR = 50;
 
-const char FILENAME[MAX_LEN_FILENAME] = "tests.txt";
+const char FILENAME[MAX_LEN_FILENAME] = "correct_tests.txt";
 
 struct DataTest {
     double b;
@@ -131,11 +131,11 @@ const char* countSolutionToString(enum CountSolution countSolution) {
 
 /* Returns the value of enum countSolution from the string */
 enum CountSolution stringToCountSolution(char* inputString) {
-    if (!strcmp(inputString, "NO_SOLUTION")) {
+    if (!strncmp(inputString, "NO_SOLUTION", MAX_LEN_COUNT_SOLUTION_STR)) {
         return NO_SOLUTION;
-    } else if (!strcmp(inputString, "ONE_SOLUTION")) {
+    } else if (!strncmp(inputString, "ONE_SOLUTION", MAX_LEN_COUNT_SOLUTION_STR)) {
         return ONE_SOLUTION;
-    } else if (!strcmp(inputString, "INFINITY_SOLUTIONS")) {
+    } else if (!strncmp(inputString, "INFINITY_SOLUTIONS", MAX_LEN_COUNT_SOLUTION_STR)) {
         return INFINITY_SOLUTIONS;
     }
     return ERROR_NULL_POINTER;
@@ -147,7 +147,7 @@ enum ScanDataStatus scanDataTest(struct DataTest* tests) {
         return ERROR_NULL_PTR;
     }
 
-    char tempStr[MAX_LEN_TEMP_STR] = {};
+    char tempStr[MAX_LEN_COUNT_SOLUTION_STR] = {};
 
     FILE* testsFile = fopen(FILENAME, "r");
 
