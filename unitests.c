@@ -44,6 +44,7 @@ enum TestStatus testSolveLinear(double b, double c, enum CountSolution correctRe
 
 void printIncorrectReturn(double b, double c, enum CountSolution currentReturn, enum CountSolution correctReturn);
 void printIncorrectX(double b, double c, double currentX, double correctX);
+void printScanDataError(struct ScanDataStatus status);
 
 struct ScanDataStatus scanDataTest(struct DataTest* tests);
 
@@ -55,20 +56,9 @@ int main() {
     
     struct ScanDataStatus status = scanDataTest(tests);
     
-    switch (status.status)
-    {
-    case INCORRECT_PATH:
-        printf("Error. The file could not be opened. Check that the file path is correct.\n");
+    if (status.status != OK) {
+        printScanDataError(status);
         return 0;
-    case INCORRECT_DATA:
-        printf("Error. Incorrect data in %s %d line\n", FILENAME, status.numberLine);
-        return 0;
-    case ERROR_NULL_POINTER:
-        printf("Error. Null ptr\n");
-        return 0;
-    case OK:
-    default:
-        break;
     }
 
     runTests(tests);
@@ -119,6 +109,24 @@ void printIncorrectX(double b, double c, double currentX, double correctX) {
     printf("Input: b = %lg, c = %lg\n", b, c);
     printf("Current x: %lg\n", currentX);
     printf("Correct x: %lg\n", correctX);
+}
+
+void printScanDataError(struct ScanDataStatus status) {
+    switch (status.status)
+    {
+    case INCORRECT_PATH:
+        printf("Error. The file could not be opened. Check that the file path is correct.\n");
+        break;
+    case INCORRECT_DATA:
+        printf("Error. Incorrect data in %s %d line\n", FILENAME, status.numberLine);
+        break;
+    case ERROR_NULL_POINTER:
+        printf("Error. Null ptr\n");
+        break;
+    case OK:
+    default:
+        break;
+    }
 }
 
 /* Returns the string value of the enum countSolution header */
@@ -176,7 +184,6 @@ struct ScanDataStatus scanDataTest(struct DataTest* tests) {
             tempStr, 
             &tests[lineCnt].currentX
         );
-        //TODO: Needs to check защитить от переполнения буфера tempStr, а как?
 
         tests[lineCnt].currentCountSolution = stringToCountSolution(tempStr);
     
