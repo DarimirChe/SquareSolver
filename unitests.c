@@ -4,17 +4,11 @@
 #include "solvers.h"
 #include "utilits.h"
 
-enum Errors {
-    OK = 1,
-    INCORRECT_PATH,
-    INCORRECT_DATA,
-    ERROR_NULL_PTR
-};
+const int COUNT_TESTS = 9;
+const int MAX_LEN_FILENAME = 50;
+const int MAX_LEN_TEMP_STR = 50;
 
-enum Status {
-    FAILED = 0,
-    PASSED
-};
+const char FILENAME[MAX_LEN_FILENAME] = "tests.txt";
 
 struct DataTest {
     double b;
@@ -23,19 +17,25 @@ struct DataTest {
     double currentX;
 };
 
-const int COUNT_TESTS = 9;
-const int MAX_LEN_FILENAME = 50;
-const int MAX_LEN_TEMP_STR = 50;
+enum ScanDataStatus {
+    OK = 1,
+    INCORRECT_PATH,
+    INCORRECT_DATA,
+    ERROR_NULL_PTR
+};
 
-const char FILENAME[MAX_LEN_FILENAME] = "tests.txt";
+enum TestStatus {
+    FAILED = 0,
+    PASSED
+};
 
 void runTests(struct DataTest tests[]);
-enum Status testSolveLinear(double b, double c, enum CountSolution correctReturn, double correctX);
+enum TestStatus testSolveLinear(double b, double c, enum CountSolution correctReturn, double correctX);
 
 void printIncorrectReturn(double b, double c, enum CountSolution currentReturn, enum CountSolution correctReturn);
 void printIncorrectX(double b, double c, double currentX, double correctX);
 
-enum Errors scanDataTest(struct DataTest* tests);
+enum ScanDataStatus scanDataTest(struct DataTest* tests);
 
 const char* countSolutionToString(enum CountSolution countSolution);
 enum CountSolution stringToCountSolution(char* inputString);
@@ -43,7 +43,7 @@ enum CountSolution stringToCountSolution(char* inputString);
 int main() {
     struct DataTest tests[COUNT_TESTS]; 
 
-    enum Errors status = scanDataTest(tests);
+    enum ScanDataStatus status = scanDataTest(tests);
 
     if (status == INCORRECT_PATH) {
         printf("Error. The file could not be opened. Check that the file path is correct.\n");
@@ -64,6 +64,7 @@ int main() {
     return 0;
 }
 
+/* Runs all tests from struct DataTest tests */
 void runTests(struct DataTest tests[]) {
     for (int i = 0; i < COUNT_TESTS; i++) {
         printf("Test %d processing...\n", i + 1);
@@ -75,10 +76,9 @@ void runTests(struct DataTest tests[]) {
     }
 }
 
-
 /* Tests the solveLinear() function, accepts coefficients b, c of the equation of the form: bx + c = 0, 
 the correct return and x for these coefficients */
-enum Status testSolveLinear(double b, double c, enum CountSolution correctCountSolution, double correctX) {
+enum TestStatus testSolveLinear(double b, double c, enum CountSolution correctCountSolution, double correctX) {
     double currentX = 0;
     enum CountSolution currentCountSolution = solveLinear(b, c, &currentX);
 
@@ -129,6 +129,7 @@ const char* countSolutionToString(enum CountSolution countSolution) {
     }
 }
 
+/* Returns the value of enum countSolution from the string */
 enum CountSolution stringToCountSolution(char* inputString) {
     if (!strcmp(inputString, "NO_SOLUTION")) {
         return NO_SOLUTION;
@@ -140,7 +141,8 @@ enum CountSolution stringToCountSolution(char* inputString) {
     return ERROR_NULL_POINTER;
 }
 
-enum Errors scanDataTest(struct DataTest* tests) {
+/* reads test data from a file */
+enum ScanDataStatus scanDataTest(struct DataTest* tests) {
     if (tests == NULL) {
         return ERROR_NULL_PTR;
     }
