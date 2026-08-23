@@ -4,20 +4,12 @@
 #include "solvers.h"
 #include "utilits.h"
 
-const int COUNT_TESTS = 9;
-const int MAX_LEN_FILENAME = 50;
-const int MAX_LEN_COUNT_SOLUTION_STR = 50;
+#define MAX_LEN_COUNT_SOLUTION_VALUE 50
+#define STRINGIFY(X) XSTR(X)
+#define XSTR(X) #X
 
-const char FILENAME[MAX_LEN_FILENAME] = "correct_tests.txt";
 
-struct DataTest {
-    double b;
-    double c;
-    enum CountSolution currentCountSolution;
-    double currentX;
-};
-
-enum ScanDataStatus {
+enum ScanDataStatusCode {
     OK = 1,
     INCORRECT_PATH,
     INCORRECT_DATA,
@@ -29,38 +21,57 @@ enum TestStatus {
     PASSED
 };
 
+const int COUNT_TESTS = 9;
+const int MAX_LEN_FILENAME = 50;
+const int MAX_LEN_COUNT_SOLUTION_STR = MAX_LEN_COUNT_SOLUTION_VALUE;
+
+const char FILENAME[MAX_LEN_FILENAME] = "tests.txt";
+
+struct DataTest {
+    double b;
+    double c;
+    enum CountSolution currentCountSolution;
+    double currentX;
+};
+
+struct ScanDataStatus {
+    enum ScanDataStatusCode status;
+    int numberLine;
+};
+
 void runTests(struct DataTest tests[]);
 enum TestStatus testSolveLinear(double b, double c, enum CountSolution correctReturn, double correctX);
 
 void printIncorrectReturn(double b, double c, enum CountSolution currentReturn, enum CountSolution correctReturn);
 void printIncorrectX(double b, double c, double currentX, double correctX);
 
-enum ScanDataStatus scanDataTest(struct DataTest* tests);
+struct ScanDataStatus scanDataTest(struct DataTest* tests);
 
 const char* countSolutionToString(enum CountSolution countSolution);
 enum CountSolution stringToCountSolution(char* inputString);
 
 int main() {
     struct DataTest tests[COUNT_TESTS]; 
-
-    enum ScanDataStatus status = scanDataTest(tests);
-
-    if (status == INCORRECT_PATH) {
+    
+    struct ScanDataStatus status = scanDataTest(tests);
+    
+    switch (status.status)
+    {
+    case INCORRECT_PATH:
         printf("Error. The file could not be opened. Check that the file path is correct.\n");
         return 0;
-    }
-
-    if (status == INCORRECT_DATA) {
+    case INCORRECT_DATA:
+        printf("Error. Incorrect data in %s %d line\n", FILENAME, status.numberLine);
         return 0;
-    }
-
-    if (status == ERROR_NULL_PTR) {
+    case ERROR_NULL_POINTER:
         printf("Error. Null ptr\n");
         return 0;
+    case OK:
+    default:
+        break;
     }
 
     runTests(tests);
-
     return 0;
 }
 
@@ -114,16 +125,16 @@ void printIncorrectX(double b, double c, double currentX, double correctX) {
 const char* countSolutionToString(enum CountSolution countSolution) { 
     switch (countSolution)
     {
-    case NO_SOLUTION:
+        case NO_SOLUTION:
         return "NO_SOLUTION";
         break;
-    case ONE_SOLUTION:
+        case ONE_SOLUTION:
         return "ONE_SOLUTION";
         break;
-    case INFINITY_SOLUTIONS:
+        case INFINITY_SOLUTIONS:
         return "INFINITY_SOLUTIONS";
         break;
-    default:
+        default:
         return "";
         break;
     }
@@ -142,9 +153,11 @@ enum CountSolution stringToCountSolution(char* inputString) {
 }
 
 /* reads test data from a file */
-enum ScanDataStatus scanDataTest(struct DataTest* tests) {
+struct ScanDataStatus scanDataTest(struct DataTest* tests) {
+    struct ScanDataStatus status;
     if (tests == NULL) {
-        return ERROR_NULL_PTR;
+        status.status = ERROR_NULL_PTR;
+        return status;
     }
 
     char tempStr[MAX_LEN_COUNT_SOLUTION_STR] = {};
@@ -152,20 +165,29 @@ enum ScanDataStatus scanDataTest(struct DataTest* tests) {
     FILE* testsFile = fopen(FILENAME, "r");
 
     if (testsFile == NULL) {
-        return INCORRECT_PATH;
+        status.status = INCORRECT_PATH;
+        return status;
     }
 
-    for (int i = 0; i < COUNT_TESTS; i++) {
-        fscanf(testsFile, "%lg %lg %s %lg", &tests[i].b, &tests[i].c, tempStr, &tests[i].currentX); //TODO: Needs to check защитить от переполнения буфера tempStr, а как?
+    for (int lineCnt = 0; lineCnt < COUNT_TESTS; lineCnt++) {
+        fscanf(testsFile, "%lg %lg %" STRINGIFY(MAX_LEN_COUNT_SOLUTION_VALUE) "s %lg", 
+            &tests[lineCnt].b, 
+            &tests[lineCnt].c, 
+            tempStr, 
+            &tests[lineCnt].currentX
+        );
+        //TODO: Needs to check защитить от переполнения буфера tempStr, а как?
 
-        tests[i].currentCountSolution = stringToCountSolution(tempStr);
+        tests[lineCnt].currentCountSolution = stringToCountSolution(tempStr);
     
-        if (tests[i].currentCountSolution == ERROR_NULL_POINTER) {
-            printf("Error. Incorrect data in %s %d line\n", FILENAME, i + 1);
-            return INCORRECT_DATA;
+        if (tests[lineCnt].currentCountSolution == ERROR_NULL_POINTER) {
+            status.status = INCORRECT_DATA;
+            status.numberLine = lineCnt + 1;
+            return status;
         }
     }
 
     fclose(testsFile);
-    return OK;
+    status.status = OK;
+    return status;
 }
