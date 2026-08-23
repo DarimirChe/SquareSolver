@@ -124,7 +124,6 @@ enum CountSolution stringToCountSolution(char* inputString) {
 }
 
 enum Errors scanDataTest(struct DataTest* tests) { // проверить указатель на NULL
-    double b = 0, c = 0, currentX = 0;
     char tempStr[MAX_LEN_TEMP_STR] = {};
 
     FILE* testsFile = fopen(FILENAME, "r");
@@ -133,12 +132,9 @@ enum Errors scanDataTest(struct DataTest* tests) { // проверить ука�
         return INCORRECT_PATH;
 
     for (int i = 0; i < COUNT_TESTS; i++) {
-        fscanf(testsFile, "%lg %lg %s %lg", &b, &c, tempStr, &currentX); //TODO: Needs to check защитить от переполнения буфера tempStr
+        fscanf(testsFile, "%lg %lg %s %lg", &tests[i].b, &tests[i].c, tempStr, &tests[i].currentX); //TODO: Needs to check защитить от переполнения буфера tempStr
 
-        tests[i].b = b;
-        tests[i].c = c;
         tests[i].currentCountSolution = stringToCountSolution(tempStr);
-        tests[i].currentX = currentX;
     
         if (tests[i].currentCountSolution == ERROR_NULL_POINTER) {
             printf("Error. Incorrect data in %s %d line\n", FILENAME, i + 1);
