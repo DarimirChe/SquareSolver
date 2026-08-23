@@ -10,6 +10,11 @@ enum Errors {
     INCORRECT_DATA
 };
 
+enum Status {
+    FAILED = 0,
+    PASSED
+};
+
 struct DataTest {
     double b;
     double c;
@@ -23,7 +28,7 @@ const int MAX_LEN_TEMP_STR = 50;
 
 const char FILENAME[MAX_LEN_FILENAME] = "tests.txt";
 
-bool testSolveLinear(double b, double c, enum CountSolution correctReturn, double correctX);
+enum Status testSolveLinear(double b, double c, enum CountSolution correctReturn, double correctX);
 
 void printIncorrectReturn(double b, double c, enum CountSolution currentReturn, enum CountSolution correctReturn);
 void printIncorrectX(double b, double c, double currentX, double correctX);
@@ -43,14 +48,14 @@ int main() {
         return 0;
     }
 
-    // if (status == INCORRECT_DATA) {
-        // return 0;
-    // }
+    if (status == INCORRECT_DATA) {
+        return 0;
+    }
 
     for (int i = 0; i < COUNT_TESTS; i++) {
         printf("Test %d processing...\n", i + 1);
 
-        if (testSolveLinear(tests[i].b, tests[i].c, tests[i].currentCountSolution, tests[i].currentX)) {
+        if (testSolveLinear(tests[i].b, tests[i].c, tests[i].currentCountSolution, tests[i].currentX) == PASSED) {
             printf("Test %d passed.\n", i + 1);
         }
 
@@ -61,20 +66,20 @@ int main() {
 
 /* Tests the solveLinear() function, accepts coefficients b, c of the equation of the form: bx + c = 0, 
 the correct return and x for these coefficients */
-bool testSolveLinear(double b, double c, enum CountSolution correctCountSolution, double correctX) {
+enum Status testSolveLinear(double b, double c, enum CountSolution correctCountSolution, double correctX) {
     double currentX = 0;
     enum CountSolution currentCountSolution = solveLinear(b, c, &currentX);
 
     if (currentCountSolution != correctCountSolution) {
         printIncorrectReturn(b, c, currentCountSolution, correctCountSolution);
-        return false;
+        return FAILED;
     }
 
     if (!compare(currentX, correctX, PRECISION)) {
         printIncorrectX(b, c, currentX, correctX);
-        return false;
+        return FAILED;
     }
-    return true;
+    return PASSED;
 }
 
 /* Prints the test summary if the return is incorrect */
@@ -128,8 +133,9 @@ enum Errors scanDataTest(struct DataTest* tests) { // проверить ука�
 
     FILE* testsFile = fopen(FILENAME, "r");
 
-    if (testsFile == NULL) 
+    if (testsFile == NULL) {
         return INCORRECT_PATH;
+    }
 
     for (int i = 0; i < COUNT_TESTS; i++) {
         fscanf(testsFile, "%lg %lg %s %lg", &tests[i].b, &tests[i].c, tempStr, &tests[i].currentX); //TODO: Needs to check защитить от переполнения буфера tempStr
@@ -141,6 +147,7 @@ enum Errors scanDataTest(struct DataTest* tests) { // проверить ука�
             return INCORRECT_DATA;
         }
     }
+
     fclose(testsFile);
     return OK;
 }
