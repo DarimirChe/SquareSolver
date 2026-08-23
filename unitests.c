@@ -111,6 +111,7 @@ void printIncorrectX(double b, double c, double currentX, double correctX) {
     printf("Correct x: %lg\n", correctX);
 }
 
+/* Displays errors when scanning a test file. */
 void printScanDataError(struct ScanDataStatus status) {
     switch (status.status)
     {
@@ -133,16 +134,16 @@ void printScanDataError(struct ScanDataStatus status) {
 const char* countSolutionToString(enum CountSolution countSolution) { 
     switch (countSolution)
     {
-        case NO_SOLUTION:
+    case NO_SOLUTION:
         return "NO_SOLUTION";
         break;
-        case ONE_SOLUTION:
+    case ONE_SOLUTION:
         return "ONE_SOLUTION";
         break;
-        case INFINITY_SOLUTIONS:
+    case INFINITY_SOLUTIONS:
         return "INFINITY_SOLUTIONS";
         break;
-        default:
+    default:
         return "";
         break;
     }
