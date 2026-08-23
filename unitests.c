@@ -29,6 +29,7 @@ const int MAX_LEN_TEMP_STR = 50;
 
 const char FILENAME[MAX_LEN_FILENAME] = "tests.txt";
 
+void runTests(struct DataTest tests[]);
 enum Status testSolveLinear(double b, double c, enum CountSolution correctReturn, double correctX);
 
 void printIncorrectReturn(double b, double c, enum CountSolution currentReturn, enum CountSolution correctReturn);
@@ -58,17 +59,22 @@ int main() {
         return 0;
     }
 
+    runTests(tests);
+
+    return 0;
+}
+
+void runTests(struct DataTest tests[]) {
     for (int i = 0; i < COUNT_TESTS; i++) {
         printf("Test %d processing...\n", i + 1);
 
         if (testSolveLinear(tests[i].b, tests[i].c, tests[i].currentCountSolution, tests[i].currentX) == PASSED) {
             printf("Test %d passed.\n", i + 1);
         }
-
         printf("\n");
     }
-    return 0;
 }
+
 
 /* Tests the solveLinear() function, accepts coefficients b, c of the equation of the form: bx + c = 0, 
 the correct return and x for these coefficients */
