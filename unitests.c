@@ -7,7 +7,8 @@
 enum Errors {
     OK = 1,
     INCORRECT_PATH,
-    INCORRECT_DATA
+    INCORRECT_DATA,
+    ERROR_NULL_PTR
 };
 
 enum Status {
@@ -49,6 +50,11 @@ int main() {
     }
 
     if (status == INCORRECT_DATA) {
+        return 0;
+    }
+
+    if (status == ERROR_NULL_PTR) {
+        printf("Error. Null ptr\n");
         return 0;
     }
 
@@ -128,7 +134,11 @@ enum CountSolution stringToCountSolution(char* inputString) {
     return ERROR_NULL_POINTER;
 }
 
-enum Errors scanDataTest(struct DataTest* tests) { // проверить указатель на NULL
+enum Errors scanDataTest(struct DataTest* tests) {
+    if (tests == NULL) {
+        return ERROR_NULL_PTR;
+    }
+
     char tempStr[MAX_LEN_TEMP_STR] = {};
 
     FILE* testsFile = fopen(FILENAME, "r");
@@ -138,7 +148,7 @@ enum Errors scanDataTest(struct DataTest* tests) { // проверить ука�
     }
 
     for (int i = 0; i < COUNT_TESTS; i++) {
-        fscanf(testsFile, "%lg %lg %s %lg", &tests[i].b, &tests[i].c, tempStr, &tests[i].currentX); //TODO: Needs to check защитить от переполнения буфера tempStr
+        fscanf(testsFile, "%lg %lg %s %lg", &tests[i].b, &tests[i].c, tempStr, &tests[i].currentX); //TODO: Needs to check защитить от переполнения буфера tempStr, а как?
 
         tests[i].currentCountSolution = stringToCountSolution(tempStr);
     
