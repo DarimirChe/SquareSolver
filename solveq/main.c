@@ -1,5 +1,5 @@
 #include "solvers.h"
-#include "ui.h"
+#include "user_ui.h"
 
 int main() {
     printWelcomeMessage();

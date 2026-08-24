@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "ui.h"
+#include "user_ui.h"
 #include "solvers.h"
 
 /* It outputs the answer based on the number of solutions to the equation. */

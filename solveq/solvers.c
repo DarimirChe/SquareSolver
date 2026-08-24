@@ -3,6 +3,8 @@
 #include "solvers.h"
 #include "utilits.h"
 
+#include <stdio.h>
+
 /* Solving quadratic equations of the form: ax^2 + bx + c = 0 */
 enum CountSolution solveQuadratic(double a, double b, double c, double* x1, double* x2) {
     if (x1 == NULL || x2 == NULL) {
@@ -21,6 +23,11 @@ enum CountSolution solveQuadratic(double a, double b, double c, double* x1, doub
 
     if (isZero(discriminant, PRECISION)) {
         *x1 = -b / 2 * a;
+
+        if (isZero(*x1, PRECISION)) {
+            *x1 = 0;
+        }
+
         return ONE_SOLUTION;
     }
 
@@ -30,6 +37,13 @@ enum CountSolution solveQuadratic(double a, double b, double c, double* x1, doub
 
     *x1 = (-b + sqrt(discriminant)) / (2 * a);
     *x2 = (-b - sqrt(discriminant)) / (2 * a);
+
+    if (isZero(*x1, PRECISION)) {
+        *x1 = 0;
+    }
+    if (isZero(*x2, PRECISION)) {
+        *x2 = 0;
+    }
 
     return TWO_SOLUTIONS;
 }
@@ -51,5 +65,9 @@ enum CountSolution solveLinear(double k, double m, double* x) {
         return NO_SOLUTION;
     }
     *x = -m / k;
+    if (isZero(*x, PRECISION)) {
+        *x = 0;
+    }
+
     return ONE_SOLUTION;
 }
