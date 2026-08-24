@@ -88,7 +88,7 @@ enum TestStatus testSolveLinear(double b, double c, enum CountSolution correctCo
         return FAILED;
     }
 
-    if (!compare(currentX, correctX, PRECISION)) {
+    if (!isEqual(currentX, correctX, PRECISION)) {
         printIncorrectX(b, c, currentX, correctX);
         return FAILED;
     }
