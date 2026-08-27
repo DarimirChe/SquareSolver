@@ -78,13 +78,13 @@ int main(int argc, char* argv[]) {
 void parseArgv(int argc, char* argv[], char* filename, int* countTests) {
     for (int argNum = 1; argNum < argc; argNum++) 
     {
-        if (!strncmp(argv[argNum], "--file", 7)) { // 7 = strlen("--file") + 1
-            strncpy(filename, argv[++argNum], MAX_LEN_FILENAME);
-
-        } else if (!strncmp(argv[argNum], "--count",  8)) { // 8 = strlen("--count") + 1
-            *countTests = strtol(argv[++argNum], NULL, 10); //TODO comment
-
-        } else if (!strncmp(argv[argNum], "--help", 7)) { // 7 + strlen("--help") + 1
+        if (!strncmp(argv[argNum], "--file", 7)) {               // 7  = strlen("--file") + 1
+            strncpy(filename, argv[++argNum], MAX_LEN_FILENAME); 
+                                                                       
+        } else if (!strncmp(argv[argNum], "--count",  8)) {      // 8  = strlen("--count") + 1
+            *countTests = strtol(argv[++argNum], NULL, 10);      // 10 = numeral system
+                                                                      
+        } else if (!strncmp(argv[argNum], "--help", 7)) {        // 7  = strlen("--help") + 1
             printHelp();
         }
     }
