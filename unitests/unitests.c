@@ -7,8 +7,8 @@
 #include "utilits.h"
 
 #define MAX_LEN_COUNT_SOLUTION_VALUE 50
-#define STRINGIFY(X) XSTR(X)
-#define XSTR(X) #X
+#define STRINGIFY(X)                 XSTR(X)
+#define XSTR(X)                      #X
 
 enum ScanDataStatusCode {
     OK             = 1,
@@ -117,7 +117,7 @@ enum TestStatus testSolveLinear(double b, double c, enum CountSolution correctCo
     enum CountSolution currentCountSolution = solveLinear(b, c, &currentX);
 
     if (currentCountSolution != correctCountSolution) {
-        printIncorrectCountSolution(b, c, currentCountSolution, correctCountSolution); // TODO rename func
+        printIncorrectCountSolution(b, c, currentCountSolution, correctCountSolution);
         return FAILED;
     }
 
@@ -217,7 +217,7 @@ struct ScanDataStatus scanDataTest(struct DataTest* tests, int countTests, char*
     } 
 
     for (int lineCnt = 0; lineCnt < countTests; lineCnt++) {
-        fscanf(testsFile, "%lg %lg %" STRINGIFY(MAX_LEN_COUNT_SOLUTION_VALUE) "s %lg", 
+        fscanf(testsFile, "%lg %lg %" STRINGIFY(MAX_LEN_COUNT_SOLUTION_VALUE) "s %lg", // MAX_LEN_COUNT_SOLUTION_VALUE = 50 -> "%lg %lg %50s %lg"
             &tests[lineCnt].b, 
             &tests[lineCnt].c, 
             tempStr, 
