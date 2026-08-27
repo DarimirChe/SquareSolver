@@ -28,8 +28,8 @@ const int MAX_LEN_COUNT_SOLUTION_STR = MAX_LEN_COUNT_SOLUTION_VALUE;
 struct DataTest {
     double b;
     double c;
-    enum CountSolution currentCountSolution;
-    double currentX;
+    enum CountSolution correctCountSolution;
+    double correctX;
 };
 
 struct ScanDataStatus {
@@ -103,7 +103,7 @@ void runTests(struct DataTest tests[], int countTests) {
     for (int testNumber = 0; testNumber < countTests; testNumber++) {
         printf("Test %d processing...\n", testNumber + 1);
 
-        if (testSolveLinear(tests[testNumber].b, tests[testNumber].c, tests[testNumber].currentCountSolution, tests[testNumber].currentX) == PASSED) {
+        if (testSolveLinear(tests[testNumber].b, tests[testNumber].c, tests[testNumber].correctCountSolution, tests[testNumber].correctX) == PASSED) {
             printf("Test %d passed.\n", testNumber + 1);
         }
         printf("\n");
@@ -221,12 +221,12 @@ struct ScanDataStatus scanDataTest(struct DataTest* tests, int countTests, char*
             &tests[lineCnt].b, 
             &tests[lineCnt].c, 
             tempStr, 
-            &tests[lineCnt].currentX
+            &tests[lineCnt].correctX
         );
 
-        tests[lineCnt].currentCountSolution = stringToCountSolution(tempStr);
+        tests[lineCnt].correctCountSolution = stringToCountSolution(tempStr);
 
-        if (tests[lineCnt].currentCountSolution == ERROR_NULL_POINTER) {
+        if (tests[lineCnt].correctCountSolution == ERROR_NULL_POINTER) {
             status.code = INCORRECT_DATA;
             status.numberLine = lineCnt + 1;
             strncpy(status.filename, filename, MAX_LEN_FILENAME);
