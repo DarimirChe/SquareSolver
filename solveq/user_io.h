@@ -1,7 +1,7 @@
 enum ScanCoefficientsStatus {
-    INVALID = 0,
-    VALID,
-    ERROR_POINTER
+    INVALID       = 0,
+    VALID         = 1,
+    ERROR_POINTER = 2
 };
 
 void printSolution(int countOfSolves, double x1, double x2);

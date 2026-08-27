@@ -22,11 +22,6 @@ enum CountSolution solveQuadratic(double a, double b, double c, double* x1, doub
 
     if (isZero(discriminant, PRECISION)) {
         *x1 = -b / 2 * a;
-
-        if (isZero(*x1, PRECISION)) {
-            *x1 = 0;
-        }
-
         return ONE_SOLUTION;
     }
 
@@ -35,15 +30,9 @@ enum CountSolution solveQuadratic(double a, double b, double c, double* x1, doub
     }
 
     double sqrtDiscriminant = sqrt(discriminant);
+    
     *x1 = (-b + sqrtDiscriminant) / (2 * a);
     *x2 = (-b - sqrtDiscriminant) / (2 * a);
-
-    if (isZero(*x1, PRECISION)) {
-        *x1 = 0;
-    }
-    if (isZero(*x2, PRECISION)) {
-        *x2 = 0;
-    }
 
     return TWO_SOLUTIONS;
 }

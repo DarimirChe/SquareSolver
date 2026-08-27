@@ -3,9 +3,17 @@
 
 #include "user_io.h"
 #include "solvers.h"
+#include "utilits.h"
 
 /* It outputs the answer based on the number of solutions to the equation. */
 void printSolution(int countSolution, double x1, double x2) {
+    if (isZero(x1, PRECISION)) {  // so that there is no output of -0 or 0.0000001 and so on
+        x1 = 0;
+    }
+    if (isZero(x2, PRECISION)) {
+        x2 = 0;
+    }
+
     switch (countSolution)
     {
     case NO_SOLUTION:
@@ -44,11 +52,11 @@ enum ScanCoefficientsStatus scanCoefficients(double* a, double* b, double* c) {
     if (a == NULL || b == NULL || c == NULL) {
         return ERROR_POINTER;
     }
-    
+
     if (scanf("%lg %lg %lg", a, b, c) != 3) {
         return INVALID;
     }
-    
+
     if (!bufferIsClear()) {
         return INVALID;
     }

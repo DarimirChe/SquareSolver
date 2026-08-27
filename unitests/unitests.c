@@ -11,18 +11,18 @@
 #define XSTR(X) #X
 
 enum ScanDataStatusCode {
-    OK = 1,
-    INCORRECT_PATH,
-    INCORRECT_DATA,
-    ERROR_NULL_PTR
+    OK             = 1,
+    INCORRECT_PATH = 2,
+    INCORRECT_DATA = 3,
+    ERROR_NULL_PTR = 4
 };
 
 enum TestStatus {
     FAILED = 0,
-    PASSED
+    PASSED = 1
 };
 
-const int MAX_LEN_FILENAME = 50;
+const int MAX_LEN_FILENAME           = 50;
 const int MAX_LEN_COUNT_SOLUTION_STR = MAX_LEN_COUNT_SOLUTION_VALUE;
 
 struct DataTest {
@@ -79,13 +79,13 @@ int main(int argc, char* argv[]) {
 void parseArgv(int argc, char* argv[], char* filename, int* countTests) {
     for (int argNum = 1; argNum < argc; argNum++) 
     {
-        if (!strncmp(argv[argNum], "--file", 7)) {               // 7  = strlen("--file") + 1
+        if (!strncmp(argv[argNum], "--file", strlen("--file") + 1)) {
             strncpy(filename, argv[++argNum], MAX_LEN_FILENAME); 
-                                                                       
-        } else if (!strncmp(argv[argNum], "--count",  8)) {      // 8  = strlen("--count") + 1
-            *countTests = strtol(argv[++argNum], NULL, 10);      // 10 = numeral system
-                                                                      
-        } else if (!strncmp(argv[argNum], "--help", 7)) {        // 7  = strlen("--help") + 1
+
+        } else if (!strncmp(argv[argNum], "--count",  strlen("--count") + 1)) {
+            *countTests = strtol(argv[++argNum], NULL, 10); // 10 = numeral system
+
+        } else if (!strncmp(argv[argNum], "--help", strlen("--help") + 1)) {
             printHelp();
         }
     }

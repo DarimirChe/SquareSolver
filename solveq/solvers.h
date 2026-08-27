@@ -1,10 +1,10 @@
 enum CountSolution {
-    NO_SOLUTION = 0, 
-    ONE_SOLUTION, 
-    TWO_SOLUTIONS,
-    INFINITY_SOLUTIONS,
-    ERROR_NULL_POINTER,
-    INVALID_COEFF
+    NO_SOLUTION        = 0, 
+    ONE_SOLUTION       = 1, 
+    TWO_SOLUTIONS      = 2,
+    INFINITY_SOLUTIONS = 3,
+    ERROR_NULL_POINTER = 4,
+    INVALID_COEFF      = 5
 };
 
 enum CountSolution solveQuadratic(double a, double b, double c, double* x1, double* x2);
