@@ -10,7 +10,6 @@
 #define STRINGIFY(X) XSTR(X)
 #define XSTR(X) #X
 
-
 enum ScanDataStatusCode {
     OK = 1,
     INCORRECT_PATH,
@@ -39,18 +38,19 @@ struct ScanDataStatus {
     char filename[MAX_LEN_FILENAME];
 };
 
-void runTests(struct DataTest tests[], int countTests);
+void            runTests       (struct DataTest tests[], int countTests);
 enum TestStatus testSolveLinear(double b, double c, enum CountSolution correctReturn, double correctX);
 
 void printIncorrectReturn(double b, double c, enum CountSolution currentReturn, enum CountSolution correctReturn);
-void printIncorrectX(double b, double c, double currentX, double correctX);
-void printScanDataError(struct ScanDataStatus status);
+void printIncorrectX     (double b, double c, double currentX, double correctX);
+void printScanDataError  (struct ScanDataStatus status);
+void printHelp();
 
 struct ScanDataStatus scanDataTest(struct DataTest* tests, int countTests, char* filename);
 
 void parseArgv(int argc, char* argv[], char* filename, int* countTests);
 
-const char* countSolutionToString(enum CountSolution countSolution);
+const char*        countSolutionToString(enum CountSolution countSolution);
 enum CountSolution stringToCountSolution(char* inputString);
 
 int main(int argc, char* argv[]) {
@@ -59,11 +59,11 @@ int main(int argc, char* argv[]) {
 
     parseArgv(argc, argv, filename, &countTests);
 
-    struct DataTest* tests = (struct DataTest*) calloc(countTests, sizeof(struct DataTest));//[countTests]; 
+    struct DataTest* tests = (struct DataTest*) calloc(countTests, sizeof(struct DataTest)); 
     assert(tests != NULL);
-    
+
     struct ScanDataStatus status = scanDataTest(tests, countTests, filename);
-    
+
     if (status.code != OK) {
         printScanDataError(status);
         return 0;
@@ -76,16 +76,28 @@ int main(int argc, char* argv[]) {
 }
 
 void parseArgv(int argc, char* argv[], char* filename, int* countTests) {
-    for (int argNum = 1; argNum < argc; argNum++) {
-        if (!strncmp(argv[argNum], "--file", 6)) {
+    for (int argNum = 1; argNum < argc; argNum++) 
+    {
+        if (!strncmp(argv[argNum], "--file", 7)) { // 7 = strlen("--file") + 1
             strncpy(filename, argv[++argNum], MAX_LEN_FILENAME);
-        } else if (!strncmp(argv[argNum], "--count",  7)) {
-            *countTests = strtol(argv[++argNum], NULL, 10);
+
+        } else if (!strncmp(argv[argNum], "--count",  8)) { // 8 = strlen("--count") + 1
+            *countTests = strtol(argv[++argNum], NULL, 10); //TODO comment
+
+        } else if (!strncmp(argv[argNum], "--help", 7)) { // 7 + strlen("--help") + 1
+            printHelp();
         }
     }
 }
 
-/* Runs all tests from struct DataTest tests */
+/* Displays help by flags. */
+void printHelp() {
+    printf("--file <path to the file>\n");
+    printf("--count <number of tests>\n");
+    printf("--help prints help\n");
+}
+
+/* Runs all tests from struct DataTest tests. */
 void runTests(struct DataTest tests[], int countTests) {
     for (int testNumber = 0; testNumber < countTests; testNumber++) {
         printf("Test %d processing...\n", testNumber + 1);
@@ -98,13 +110,13 @@ void runTests(struct DataTest tests[], int countTests) {
 }
 
 /* Tests the solveLinear() function, accepts coefficients b, c of the equation of the form: bx + c = 0, 
-the correct return and x for these coefficients */
+the correct return and x for these coefficients. */
 enum TestStatus testSolveLinear(double b, double c, enum CountSolution correctCountSolution, double correctX) {
     double currentX = 0;
     enum CountSolution currentCountSolution = solveLinear(b, c, &currentX);
 
     if (currentCountSolution != correctCountSolution) {
-        printIncorrectReturn(b, c, currentCountSolution, correctCountSolution); // TODO
+        printIncorrectReturn(b, c, currentCountSolution, correctCountSolution); // TODO rename func
         return FAILED;
     }
 
@@ -115,7 +127,7 @@ enum TestStatus testSolveLinear(double b, double c, enum CountSolution correctCo
     return PASSED;
 }
 
-/* Prints the test summary if the return is incorrect */
+/* Prints the test summary if the return is incorrect. */
 void printIncorrectReturn(double b, double c, enum CountSolution currentCountSolution, enum CountSolution correctCountSolution) {
     printf("Incorrect return.\n");
     printf("Input: b = %lg, c = %lg\n", b, c);
@@ -123,7 +135,7 @@ void printIncorrectReturn(double b, double c, enum CountSolution currentCountSol
     printf("Correct return: %s\n", countSolutionToString(correctCountSolution));
 }
 
-/* Prints the test summary if the x is incorrect */
+/* Prints the test summary if the x is incorrect. */
 void printIncorrectX(double b, double c, double currentX, double correctX) {
     printf("Incorrect x.\n");
     printf("Input: b = %lg, c = %lg\n", b, c);
@@ -150,7 +162,7 @@ void printScanDataError(struct ScanDataStatus status) {
     }
 }
 
-/* Returns the string value of the enum countSolution header */
+/* Returns the string value of the enum countSolution header. */
 const char* countSolutionToString(enum CountSolution countSolution) { 
     switch (countSolution)
     {
@@ -169,7 +181,7 @@ const char* countSolutionToString(enum CountSolution countSolution) {
     }
 }
 
-/* Returns the value of enum countSolution from the string */
+/* Returns the value of enum countSolution from the string. */
 enum CountSolution stringToCountSolution(char* inputString) {
     if (inputString == NULL) {
         return ERROR_NULL_POINTER;
@@ -185,7 +197,7 @@ enum CountSolution stringToCountSolution(char* inputString) {
     return ERROR_NULL_POINTER;
 }
 
-/* reads test data from a file */
+/* Reads test data from a file. */
 struct ScanDataStatus scanDataTest(struct DataTest* tests, int countTests, char* filename) {
     struct ScanDataStatus status;
 
@@ -201,7 +213,7 @@ struct ScanDataStatus scanDataTest(struct DataTest* tests, int countTests, char*
     if (testsFile == NULL) {
         status.code = INCORRECT_PATH;
         return status;
-    }
+    } 
 
     for (int lineCnt = 0; lineCnt < countTests; lineCnt++) {
         fscanf(testsFile, "%lg %lg %" STRINGIFY(MAX_LEN_COUNT_SOLUTION_VALUE) "s %lg", 

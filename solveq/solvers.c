@@ -35,8 +35,9 @@ enum CountSolution solveQuadratic(double a, double b, double c, double* x1, doub
         return NO_SOLUTION;
     }
 
-    *x1 = (-b + sqrt(discriminant)) / (2 * a);
-    *x2 = (-b - sqrt(discriminant)) / (2 * a);
+    double sqrtDiscriminant = sqrt(discriminant);
+    *x1 = (-b + sqrtDiscriminant) / (2 * a);
+    *x2 = (-b - sqrtDiscriminant) / (2 * a);
 
     if (isZero(*x1, PRECISION)) {
         *x1 = 0;

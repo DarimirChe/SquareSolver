@@ -4,8 +4,10 @@
 #include "utilits.h"
 
 /* Comparing the first double number with the second double number with a given precision. */
-bool isEqual(double firstNumber, double secondNumber, double precision) { // проверить isfifnite
-    assert(isfinite(firstNumber) && isfinite(secondNumber) && isfinite(precision));
+bool isEqual(double firstNumber, double secondNumber, double precision) { 
+    assert(isfinite(firstNumber));
+    assert(isfinite(secondNumber));
+    assert(isfinite(precision));
 
     return fabs(firstNumber - secondNumber) < precision;
 }

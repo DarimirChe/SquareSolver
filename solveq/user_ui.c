@@ -28,13 +28,13 @@ void printSolution(int countSolution, double x1, double x2) {
     }
 }
 
-/* displays a description of the program and input instructions */
+/* Displays a description of the program and input instructions. */
 void printWelcomeMessage() {
     printf("A program for solving quadratic equations of the form: ax^2 + bx + c = 0.\n");
     printf("Enter the coefficients a, b, and c:\n");
 }
 
-/* Outputs an error in entering coefficients */
+/* Outputs an error in entering coefficients. */
 void printInputError() {
     printf("The entered coefficients are incorrect\n");
 }
@@ -60,6 +60,7 @@ enum ScanCoefficientsStatus scanCoefficients(double* a, double* b, double* c) {
     return INVALID;
 }
 
+/* Checks if the buffer is clean. */
 bool bufferIsClear() {
     int c = 0;
     while ((c = getchar()) != '\n' && c != EOF) {
