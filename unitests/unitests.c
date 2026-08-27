@@ -38,12 +38,12 @@ struct ScanDataStatus {
     char filename[MAX_LEN_FILENAME];
 };
 
-void            runTests       (struct DataTest tests[], int countTests);
-enum TestStatus testSolveLinear(double b, double c, enum CountSolution correctReturn, double correctX);
+void            runTests        (struct DataTest tests[], int countTests);
+enum TestStatus testSolveLinear (double b, double c, enum CountSolution correctReturn, double correctX);
 
-void printIncorrectReturn(double b, double c, enum CountSolution currentReturn, enum CountSolution correctReturn);
-void printIncorrectX     (double b, double c, double currentX, double correctX);
-void printScanDataError  (struct ScanDataStatus status);
+void printIncorrectCountSolution(double b, double c, enum CountSolution currentReturn, enum CountSolution correctReturn);
+void printIncorrectX            (double b, double c, double currentX, double correctX);
+void printScanDataError         (struct ScanDataStatus status);
 void printHelp();
 
 struct ScanDataStatus scanDataTest(struct DataTest* tests, int countTests, char* filename);
@@ -117,7 +117,7 @@ enum TestStatus testSolveLinear(double b, double c, enum CountSolution correctCo
     enum CountSolution currentCountSolution = solveLinear(b, c, &currentX);
 
     if (currentCountSolution != correctCountSolution) {
-        printIncorrectReturn(b, c, currentCountSolution, correctCountSolution); // TODO rename func
+        printIncorrectCountSolution(b, c, currentCountSolution, correctCountSolution); // TODO rename func
         return FAILED;
     }
 
@@ -129,7 +129,7 @@ enum TestStatus testSolveLinear(double b, double c, enum CountSolution correctCo
 }
 
 /* Prints the test summary if the return is incorrect. */
-void printIncorrectReturn(double b, double c, enum CountSolution currentCountSolution, enum CountSolution correctCountSolution) {
+void printIncorrectCountSolution(double b, double c, enum CountSolution currentCountSolution, enum CountSolution correctCountSolution) {
     printf("Incorrect return.\n");
     printf("Input: b = %lg, c = %lg\n", b, c);
     printf("Current return: %s\n", countSolutionToString(currentCountSolution));
