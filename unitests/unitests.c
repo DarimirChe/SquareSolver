@@ -75,6 +75,7 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
+/* Handles console line flags. */
 void parseArgv(int argc, char* argv[], char* filename, int* countTests) {
     for (int argNum = 1; argNum < argc; argNum++) 
     {
