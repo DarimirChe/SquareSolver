@@ -21,11 +21,11 @@ void printSolution(int countSolution, double x1, double x2) {
         break;
     case ONE_SOLUTION:
         printf("The equation has one solution:\n");
-        printf("x = %lg\n", x1);
+        printf("x = %.5lg\n", x1);
         break;
     case TWO_SOLUTIONS:
         printf("The equation has two solutions:\n");
-        printf("x1 = %lg, x2 = %lg\n", x1, x2);
+        printf("x1 = %.5lg, x2 = %.5lg\n", x1, x2);
         break;
     case INFINITY_SOLUTIONS:
         printf("The equation has an infinite number of solutions\n");
