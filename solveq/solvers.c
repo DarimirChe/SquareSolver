@@ -1,9 +1,8 @@
 #include <math.h>
+#include <stdio.h>
 
 #include "solvers.h"
 #include "utilits.h"
-
-#include <stdio.h>
 
 /* Solving quadratic equations of the form: ax^2 + bx + c = 0 */
 enum CountSolution solveQuadratic(double a, double b, double c, double* x1, double* x2) {
