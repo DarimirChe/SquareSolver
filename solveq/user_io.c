@@ -47,13 +47,22 @@ void printInputError() {
     printf("The entered coefficients are incorrect\n");
 }
 
-/* Accepts coefficients a, b, and c from the input buffer. Returns 1 if the data is correct and 0 otherwise. */
+/* Accepts coefficients a, b, and c from the input buffer. Returns enum ScanCoefficientsStatus VALID if 
+the data is correct and INVALID otherwise. */
 enum ScanCoefficientsStatus scanCoefficients(double* a, double* b, double* c) {
     if (a == NULL || b == NULL || c == NULL) {
         return ERROR_POINTER;
     }
 
-    if (scanf("%lg %lg %lg", a, b, c) != 3) {
+    if (scanOneCoefficient(a) == INVALID) {
+        return INVALID;
+    }
+
+    if (scanOneCoefficient(b) == INVALID) {
+        return INVALID;
+    }
+
+    if (scanOneCoefficient(c) == INVALID) {
         return INVALID;
     }
 
@@ -61,7 +70,21 @@ enum ScanCoefficientsStatus scanCoefficients(double* a, double* b, double* c) {
         return INVALID;
     }
 
-    if (isfinite(*a) && isfinite(*b) && isfinite(*c)) {
+    return VALID;
+}
+
+/* Reads one coefficient from the input buffer. Returns the enum ScanCoefficientsStatus VALID if
+the data is correct, and INVALID otherwise. */
+enum ScanCoefficientsStatus scanOneCoefficient(double* coefficient) {
+    if (coefficient == NULL) {
+        return ERROR_POINTER;
+    }
+
+    if (scanf("%lg", coefficient) != 1) {
+        return INVALID;
+    }
+
+    if (isfinite(*coefficient)) {
         return VALID;
     }
 
