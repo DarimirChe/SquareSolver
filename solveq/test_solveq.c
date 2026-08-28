@@ -1,4 +1,6 @@
 #include "test_solveq.h"
+#include "solvers.h"
+#include "utilits.h"
 
 void runTests() {
     struct TestCase tests[5] = { // пока временно, нужно считывать из файла
@@ -8,10 +10,29 @@ void runTests() {
         {.a = 1e-6, .b = 0, .c = 0, .correctCountSolution = INFINITY_SOLUTIONS, .correctX1 = 0, .correctX2 = 0},
         {.a = -3.12, .b = 86.3, .c = 0.5, .correctCountSolution = TWO_SOLUTIONS, .correctX1 = -0.00579253, .correctX2 = 27.666},
     };
-    // как узнает кол-во тестов?
-    // вызывает runTest
+    for (int countTest = 0; countTest < CountTests; countTest++) {
+        runTest(tests[countTest]);
+    }
 }
 
-void runTest(struct TestCase test) {
-    // вызывает solveQuadratic, получаетсянужно его подключить? Будет ли множественное подключение?
+bool runTest(struct TestCase test) {
+    double currentX1 = 0, currentX2 = 0;
+    enum CountSolution currentCountSolution = solveQuadratic(test.a, test.b, test.c, &currentX1, &currentX2);
+
+    if (currentCountSolution != test.correctCountSolution) {
+        printf("Test failed\n");
+        printf("Incorrect return:\n");
+        printf("Correct return: %d\n", test.correctCountSolution);
+        printf("Current count solution: %d\n", currentCountSolution);
+        return false;
+    }
+    if (!(
+        (isEqual(currentX1, test.correctX1, PRECISION) && isEqual(currentX2, test.correctX2, PRECISION)) || 
+        (isEqual(currentX1, test.correctX2, PRECISION) && isEqual(currentX2, test.correctX1, PRECISION)))) {
+
+        printf("Test failed\n");
+        printf("Incorrect answer:\n");
+        printf("Correct x1: %d\n", test.correctCountSolution);
+        printf("Current count solution: %d\n", currentCountSolution);
+    }
 }

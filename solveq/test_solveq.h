@@ -1,6 +1,6 @@
 #include "solvers.h"
 
-const unsigned int countTests = 5;
+const unsigned int CountTests = 5;
 
 struct TestCase {
     double a;
