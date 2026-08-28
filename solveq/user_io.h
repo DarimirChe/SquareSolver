@@ -1,3 +1,6 @@
+#ifndef USER_IO_H
+#define USER_IO_H
+
 enum ScanCoefficientsStatus {
     INVALID       = 0,
     VALID         = 1,
@@ -13,3 +16,5 @@ enum ScanCoefficientsStatus scanCoefficients  (double* a, double* b, double* c);
 enum ScanCoefficientsStatus scanOneCoefficient(double* coefficient);
 
 bool bufferIsClear();
+
+#endif

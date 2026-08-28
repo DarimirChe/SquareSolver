@@ -53,19 +53,19 @@ enum ScanCoefficientsStatus scanCoefficients(double* a, double* b, double* c) {
     if (a == NULL || b == NULL || c == NULL) {
         return ERROR_POINTER;
     }
-
-    if (scanOneCoefficient(a) == INVALID) {
-        return INVALID;
-    }
-
-    if (scanOneCoefficient(b) == INVALID) {
-        return INVALID;
-    }
-
-    if (scanOneCoefficient(c) == INVALID) {
-        return INVALID;
-    }
-
+//  -----------------------------------------------------
+    if (scanOneCoefficient(a) == INVALID) {      //    ^
+        return INVALID;                          //    |
+    }                                            //    |
+                                                 //    |
+    if (scanOneCoefficient(b) == INVALID) {      //    |
+        return INVALID;                          //   что можно сделать 
+    }                                            //   с этим повторяющимся кодом?
+                                                 //    |
+    if (scanOneCoefficient(c) == INVALID) {      //    |
+        return INVALID;                          //    |
+    }                                            //    v
+//  -----------------------------------------------------
     if (!bufferIsClear()) {
         return INVALID;
     }

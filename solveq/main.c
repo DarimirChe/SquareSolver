@@ -1,7 +1,10 @@
 #include "solvers.h"
 #include "user_io.h"
+#include "test_solveq.h"
 
 int main() {
+    runTests();
+
     printWelcomeMessage();
 
     double a = 0, b = 0, c = 0;
