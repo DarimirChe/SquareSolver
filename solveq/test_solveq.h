@@ -41,4 +41,6 @@ void printIncorrectCountSolution(int correctCountSolution, int currentCountSolut
 void printIncorrectAnswer       (double correctX1, double correctX2, double currentX1, double currentX2);
 void printScanFileTestsError    (struct ScanFileTestsStatus status);
 
+bool shouldStartTest(int argc, char* argv[]);
+
 #endif

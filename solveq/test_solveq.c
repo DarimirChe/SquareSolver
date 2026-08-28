@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "test_solveq.h"
 #include "solvers.h"
@@ -116,4 +117,14 @@ void printScanFileTestsError(struct ScanFileTestsStatus status) {
     default:
         break;
     }
+}
+
+/* Checks whether it is worth running the test. Returns true if there is a --test flag, otherwise false. */
+bool shouldStartTest(int argc, char* argv[]) {
+    for (int argNum = 0; argNum < argc; argNum++) {
+        if (!strncmp(argv[argNum], "--test", strlen("--test") + 1)) {
+            return true;
+        }
+    }
+    return false;
 }

@@ -2,8 +2,11 @@
 #include "user_io.h"
 #include "test_solveq.h"
 
-int main() {
-    runTests();
+int main(int argc, char* argv[]) {
+    if (shouldStartTest(argc, argv)) {
+        runTests();
+        return 0;
+    }
 
     printWelcomeMessage();
 
@@ -23,3 +26,4 @@ int main() {
     printSolution(countSolution, x1, x2);
     return 0;
 }
+
