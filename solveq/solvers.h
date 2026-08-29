@@ -13,4 +13,4 @@ enum CountSolution {
 enum CountSolution solveQuadratic(double a, double b, double c, double* x1, double* x2);
 enum CountSolution solveLinear   (double k, double m, double* x);
 
-#endif
+#endif /* SOLVERS_H */

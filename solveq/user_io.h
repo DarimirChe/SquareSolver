@@ -17,4 +17,4 @@ enum ScanCoefficientsStatus scanOneCoefficient(double* coefficient);
 
 bool bufferIsClear();
 
-#endif
+#endif /* USER_IO_H */

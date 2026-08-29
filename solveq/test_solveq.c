@@ -19,7 +19,7 @@ int runTests() {
 
     for (int testNumber = 0; testNumber < NUMBER_TESTS; testNumber++) {
         printf("Test %d/%d processing...\n", testNumber + 1, NUMBER_TESTS);
-        if(runTest(tests[testNumber]) == PASSED) {
+        if(runOneTest(tests[testNumber]) == PASSED) {
             printf("Passed\n");
         }
         printf("\n");
@@ -28,7 +28,7 @@ int runTests() {
 }
 
 /* Runs one test. */
-enum RunTestStatus runTest(struct TestCase test) {
+enum RunTestStatus runOneTest(struct TestCase test) {
     double currentX1 = 0, currentX2 = 0;
     enum CountSolution currentCountSolution = solveQuadratic(test.a, test.b, test.c, &currentX1, &currentX2);
 
@@ -62,8 +62,8 @@ void printIncorrectCountSolution(int correctCountSolution, int currentCountSolut
 void printIncorrectAnswer(double correctX1, double correctX2, double currentX1, double currentX2) {
     printf("FAILED\n");
     printf("Incorrect answer:\n");
-    printf("Correct answer: x1 = %lg, x2 = %lg\n", correctX1, correctX2);
-    printf("Current answer: x1 = %lg, x2 = %lg\n", currentX1, currentX2);
+    printf("Correct answer: x1 = %.10lf, x2 = %.10lf\n", correctX1, correctX2);
+    printf("Current answer: x1 = %.10lf, x2 = %.10lf\n", currentX1, currentX2);
 }
 
 /* Reads tests from a file. */

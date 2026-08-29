@@ -3,7 +3,7 @@
 
 #include "solvers.h"
 
-const int NUMBER_TESTS = 6;
+const int NUMBER_TESTS = 7;
 const char FILENAME[50] = "tests.txt";
 
 enum ScanFileStatusCode {
@@ -33,7 +33,7 @@ struct ScanFileTestsStatus {
 };
 
 int runTests();
-enum RunTestStatus runTest(struct TestCase test);
+enum RunTestStatus runOneTest(struct TestCase test);
 
 bool isEqualAnswers(double x1, double x2, double x1Ref, double x2Ref);
 
@@ -45,4 +45,4 @@ void printScanFileTestsError    (struct ScanFileTestsStatus status);
 
 void parseArgv(int argc, char* argv[], bool* flagStartTests);
 
-#endif
+#endif /* TEST_SOLVEQ_H */

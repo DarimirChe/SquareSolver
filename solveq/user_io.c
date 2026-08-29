@@ -21,11 +21,11 @@ void printSolution(int countSolution, double x1, double x2) {
         break;
     case ONE_SOLUTION:
         printf("The equation has one solution:\n");
-        printf("x = %.5lg\n", x1);
+        printf("x = %lg\n", x1);
         break;
     case TWO_SOLUTIONS:
         printf("The equation has two solutions:\n");
-        printf("x1 = %.5lg, x2 = %.5lg\n", x1, x2);
+        printf("x1 = %lg, x2 = %lg\n", x1, x2);
         break;
     case INFINITY_SOLUTIONS:
         printf("The equation has an infinite number of solutions\n");
@@ -53,19 +53,13 @@ enum ScanCoefficientsStatus scanCoefficients(double* a, double* b, double* c) {
     if (a == NULL || b == NULL || c == NULL) {
         return ERROR_POINTER;
     }
-//  -----------------------------------------------------
-    if (scanOneCoefficient(a) == INVALID) {      //    ^
-        return INVALID;                          //    |
-    }                                            //    |
-                                                 //    |
-    if (scanOneCoefficient(b) == INVALID) {      //    |
-        return INVALID;                          //   что можно сделать 
-    }                                            //   с этим повторяющимся кодом?
-                                                 //    |
-    if (scanOneCoefficient(c) == INVALID) {      //    |
-        return INVALID;                          //    |
-    }                                            //    v
-//  -----------------------------------------------------
+
+    if (scanOneCoefficient(a) == INVALID ||
+        scanOneCoefficient(b) == INVALID ||
+        scanOneCoefficient(c) == INVALID) {   
+        return INVALID;                          
+    }
+
     if (!bufferIsClear()) {
         return INVALID;
     }
