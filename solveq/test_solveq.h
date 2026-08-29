@@ -35,12 +35,14 @@ struct ScanFileTestsStatus {
 int runTests();
 enum RunTestStatus runTest(struct TestCase test);
 
+bool isEqualAnswers(double x1, double x2, double x1Ref, double x2Ref);
+
 struct ScanFileTestsStatus scanFileTests(struct TestCase tests[]);
 
 void printIncorrectCountSolution(int correctCountSolution, int currentCountSolution);
 void printIncorrectAnswer       (double correctX1, double correctX2, double currentX1, double currentX2);
 void printScanFileTestsError    (struct ScanFileTestsStatus status);
 
-bool shouldStartTest(int argc, char* argv[]);
+void parseArgv(int argc, char* argv[], bool* flagStartTests);
 
 #endif

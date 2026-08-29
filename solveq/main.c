@@ -3,7 +3,11 @@
 #include "test_solveq.h"
 
 int main(int argc, char* argv[]) {
-    if (shouldStartTest(argc, argv)) {
+    bool startTests = false;
+
+    parseArgv(argc, argv, &startTests);
+    
+    if (startTests) {
         runTests();
         return 0;
     }
@@ -26,4 +30,11 @@ int main(int argc, char* argv[]) {
     printSolution(countSolution, x1, x2);
     return 0;
 }
+
+
+// flag1 = 0
+// flag2 = 0
+// flag3 = 0
+
+// parse_flags(argc, argv) // flag1 = 1, flag2 = 0, flag3 = 1
 

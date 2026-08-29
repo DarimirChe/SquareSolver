@@ -14,6 +14,7 @@ int runTests() {
 
     if (status.code != OK) {
         printScanFileTestsError(status);
+        return 0;
     }
 
     for (int testNumber = 0; testNumber < NUMBER_TESTS; testNumber++) {
@@ -35,13 +36,18 @@ enum RunTestStatus runTest(struct TestCase test) {
         printIncorrectCountSolution(test.correctCountSolution, currentCountSolution);
         return FAILED;
     }
-    if (!((isEqual(currentX1, test.correctX1, PRECISION) && isEqual(currentX2, test.correctX2, PRECISION)) ||
-          (isEqual(currentX1, test.correctX2, PRECISION) && isEqual(currentX2, test.correctX1, PRECISION)))) {
-
+    if (!isEqualAnswers(currentX1, currentX2, test.correctX1, test.correctX2)) {
         printIncorrectAnswer(test.correctX1, test.correctX2, currentX1, currentX2);
         return FAILED;
     }
     return PASSED;
+}
+
+/* Compares the two roots of the quadratic equation x1 and x2 
+with their reference values x1Ref and x2Ref, taking into account their permutation. */
+bool isEqualAnswers(double x1, double x2, double x1Ref, double x2Ref) {
+    return (isEqual(x1, x1Ref, PRECISION) && isEqual(x2, x2Ref, PRECISION)) ||
+           (isEqual(x1, x2Ref, PRECISION) && isEqual(x2, x1Ref, PRECISION));
 }
 
 /* Prints a summary of the test results if the return is incorrect. */
@@ -58,7 +64,6 @@ void printIncorrectAnswer(double correctX1, double correctX2, double currentX1, 
     printf("Incorrect answer:\n");
     printf("Correct answer: x1 = %lg, x2 = %lg\n", correctX1, correctX2);
     printf("Current answer: x1 = %lg, x2 = %lg\n", currentX1, currentX2);
-        
 }
 
 /* Reads tests from a file. */
@@ -120,11 +125,10 @@ void printScanFileTestsError(struct ScanFileTestsStatus status) {
 }
 
 /* Checks whether it is worth running the test. Returns true if there is a --test flag, otherwise false. */
-bool shouldStartTest(int argc, char* argv[]) {
+void parseArgv(int argc, char* argv[], bool* flagStartTests) {
     for (int argNum = 0; argNum < argc; argNum++) {
         if (!strncmp(argv[argNum], "--test", strlen("--test") + 1)) {
-            return true;
+            *flagStartTests = true;
         }
     }
-    return false;
 }
