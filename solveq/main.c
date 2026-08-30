@@ -1,11 +1,13 @@
 #include "solvers.h"
 #include "user_io.h"
 #include "test_solveq.h"
+#include "draw_graph.h"
+#include "utilits.h"
 
 int main(int argc, char* argv[]) {
-    bool startTests = false;
+    bool startTests = false, shouldCreateGraph = false;
 
-    parseArgv(argc, argv, &startTests);
+    parseArgv(argc, argv, &startTests, &shouldCreateGraph);
 
     if (startTests) {
         runTests();
@@ -28,5 +30,9 @@ int main(int argc, char* argv[]) {
     int countSolution = solveQuadratic(a, b, c, &x1, &x2);
 
     printSolution(countSolution, x1, x2);
+
+    if (shouldCreateGraph) {
+        createGraph(a, b, c);
+    }
     return 0;
 }

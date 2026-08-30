@@ -6,4 +6,6 @@ const double PRECISION = 1e-5; // calculations are performed with an accuracy of
 bool isEqual(double firstNumber, double secondNumber, double precision);
 bool isZero (double comparedNumber, double precision);
 
+void parseArgv(int argc, char* argv[], bool* flagStartTests, bool* flagDrawGraph);
+
 #endif /* UTILITS_H */

@@ -123,12 +123,3 @@ void printScanFileTestsError(struct ScanFileTestsStatus status) {
         break;
     }
 }
-
-/* Checks whether it is worth running the test. Returns true if there is a --test flag, otherwise false. */
-void parseArgv(int argc, char* argv[], bool* flagStartTests) {
-    for (int argNum = 0; argNum < argc; argNum++) {
-        if (!strncmp(argv[argNum], "--test", strlen("--test") + 1)) {
-            *flagStartTests = true;
-        }
-    }
-}

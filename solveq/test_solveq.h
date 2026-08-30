@@ -43,6 +43,4 @@ void printIncorrectCountSolution(int correctCountSolution, int currentCountSolut
 void printIncorrectAnswer       (double correctX1, double correctX2, double currentX1, double currentX2);
 void printScanFileTestsError    (struct ScanFileTestsStatus status);
 
-void parseArgv(int argc, char* argv[], bool* flagStartTests);
-
 #endif /* TEST_SOLVEQ_H */
